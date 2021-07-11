@@ -16,6 +16,13 @@ const PROPERTY_TITLE = process.env["PROPERTY_TITLE"]
 const PROPERTY_NO = process.env["PROPERTY_NO"]
 const PROPERTY_GITHUB = process.env["PROPERTY_GITHUB"]
 
+type Page = {
+  id: string
+  status: string
+  title: string
+  url: string
+}
+
 async function createGitHubIssues(tasks: Page[]) {
   tasks.forEach(async (task) => {
     const createdIssue = await octokit.rest.issues.create({ 
@@ -39,24 +46,9 @@ async function createGitHubIssues(tasks: Page[]) {
   })
 }
 
-async function main() {
-  const tasks = await getTasksFromDatabase()
-  console.log(tasks)
-  createGitHubIssues(tasks).catch(console.error)
-}
-
-type Page = {
-  id: string
-  status: string
-  title: string
-  url: string
-}
-
 async function getTasksFromDatabase() {
   const tasks: Page[] = []
-
   async function getPageOfTasks(cursor: string | null) {
-
     const current_pages = await notion.databases.query({
       database_id: DATABASE_ID, 
       filter: {
@@ -86,4 +78,9 @@ async function getTasksFromDatabase() {
   return tasks
 }
 
+async function main() {
+  const tasks = await getTasksFromDatabase()
+  console.log(tasks)
+  createGitHubIssues(tasks).catch(console.error)
+}
 main()
