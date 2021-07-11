@@ -11,6 +11,10 @@ const octokit = new Octokit({ auth: process.env["GITHUB_KEY"] })
 const notion = new Client({ auth: process.env["NOTION_KEY"] })
 
 const database_id = process.env["NOTION_DATABASE_ID"]
+const PROPERTY_STATUS = process.env["PROPERTY_STATUS"]
+const PROPERTY_TITLE = process.env["PROPERTY_TITLE"]
+const PROPERTY_NO = process.env["PROPERTY_NO"]
+const PROPERTY_GITHUB = process.env["PROPERTY_GITHUB"]
 
 async function createGitHubIssues(tasks: Page[]) {
   tasks.forEach(async (task) => {
@@ -22,11 +26,11 @@ async function createGitHubIssues(tasks: Page[]) {
      })
 
      const propertyValues: InputPropertyValueMap = {}
-     propertyValues['No'] = {
+     propertyValues[PROPERTY_NO] = {
        type: 'number',
        number: createdIssue.data.number
      }
-     propertyValues['GitHub'] = {
+     propertyValues[PROPERTY_GITHUB] = {
        type: 'url',
        url: createdIssue.data.html_url
      }
@@ -56,7 +60,7 @@ async function getTasksFromDatabase() {
     const current_pages = await notion.databases.query({
       database_id: database_id, 
       filter: {
-        property: "No",
+        property: PROPERTY_NO,
         number: {
           is_empty: true
         },
@@ -68,8 +72,8 @@ async function getTasksFromDatabase() {
       if (page.object === 'page') {
         tasks.push({
           Id: page.id,
-          Status: (page.properties["Status"] as SelectPropertyValue).select.name,
-          Title: (page.properties["Name"] as TitlePropertyValue).title[0]!.plain_text,
+          Status: (page.properties[PROPERTY_STATUS] as SelectPropertyValue).select.name,
+          Title: (page.properties[PROPERTY_TITLE] as TitlePropertyValue).title[0]!.plain_text,
           Url: page.url,
         })
       }
