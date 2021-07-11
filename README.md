@@ -20,6 +20,11 @@ NOTION_DATABASE_ID=<your-notion-database-id>
 GITHUB_KEY=<your-github-token>
 GITHUB_OWNER=<your-github-owner>
 GITHUB_REPO=<your-github-repository>
+
+PROPERTY_STATUS=<status-for-your-tasks-in-database>
+PROPERTY_TITLE=<title-for-your-tasks-in-database>
+PROPERTY_NO=<property-name-for-github-issues-no>
+PROPERTY_GITHUB=<property-name-for-github-issue-url>
 ```
 
 You can create your Notion API key [here](https://www.notion.com/my-integrations).
