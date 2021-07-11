@@ -21,8 +21,8 @@ async function createGitHubIssues(tasks: Page[]) {
     const createdIssue = await octokit.rest.issues.create({ 
       owner: process.env["GITHUB_OWNER"],
       repo: process.env["GITHUB_REPO"],
-      title: task.Title,
-      body: task.Url
+      title: task.title,
+      body: task.url
      })
 
      const propertyValues: InputPropertyValueMap = {}
@@ -35,7 +35,7 @@ async function createGitHubIssues(tasks: Page[]) {
        url: createdIssue.data.html_url
      }
 
-     notion.pages.update({page_id: task.Id, properties: propertyValues })
+     notion.pages.update({page_id: task.id, properties: propertyValues })
   })
 }
 
@@ -46,10 +46,10 @@ async function main() {
 }
 
 type Page = {
-  Id: string
-  Status: string
-  Title: string
-  Url: string
+  id: string
+  status: string
+  title: string
+  url: string
 }
 
 async function getTasksFromDatabase() {
@@ -71,10 +71,10 @@ async function getTasksFromDatabase() {
     for (const page of current_pages.results) {
       if (page.object === 'page') {
         tasks.push({
-          Id: page.id,
-          Status: (page.properties[PROPERTY_STATUS] as SelectPropertyValue).select.name,
-          Title: (page.properties[PROPERTY_TITLE] as TitlePropertyValue).title[0]!.plain_text,
-          Url: page.url,
+          id: page.id,
+          status: (page.properties[PROPERTY_STATUS] as SelectPropertyValue).select.name,
+          title: (page.properties[PROPERTY_TITLE] as TitlePropertyValue).title[0]!.plain_text,
+          url: page.url,
         })
       }
     }
