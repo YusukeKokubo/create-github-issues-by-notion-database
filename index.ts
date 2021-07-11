@@ -10,7 +10,7 @@ config()
 const octokit = new Octokit({ auth: process.env["GITHUB_KEY"] })
 const notion = new Client({ auth: process.env["NOTION_KEY"] })
 
-const database_id = process.env["NOTION_DATABASE_ID"]
+const DATABASE_ID = process.env["NOTION_DATABASE_ID"]
 const PROPERTY_STATUS = process.env["PROPERTY_STATUS"]
 const PROPERTY_TITLE = process.env["PROPERTY_TITLE"]
 const PROPERTY_NO = process.env["PROPERTY_NO"]
@@ -58,7 +58,7 @@ async function getTasksFromDatabase() {
   async function getPageOfTasks(cursor: string | null) {
 
     const current_pages = await notion.databases.query({
-      database_id: database_id, 
+      database_id: DATABASE_ID, 
       filter: {
         property: PROPERTY_NO,
         number: {
