@@ -40,7 +40,7 @@ async function createGitHubIssues(tasks: Page[]) {
       url: createdIssue.data.html_url
     }
 
-    notion.pages.update({ page_id: task.id, properties: propertyValues })
+    notion.pages.update({ page_id: task.id, properties: propertyValues, archived: false })
 
     // TODO: I'd really like to sleep here.(to avoid GitHub's api rate limit)
   }
@@ -65,7 +65,7 @@ async function getTasksFromDatabase() {
         if (page.properties[PROPERTY_TITLE]) {
           tasks.push({
             id: page.id,
-            title: (page.properties[PROPERTY_TITLE] as TitlePropertyValue).title[0]!.plain_text,
+            title: (page.properties[PROPERTY_TITLE] as TitlePropertyValue).title[0]?.plain_text,
             url: page.url,
           })
         }
