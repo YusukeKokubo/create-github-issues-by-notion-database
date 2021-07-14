@@ -7,7 +7,8 @@
     "@notionhq/client": "latest",
     "dotenv": "^10.0.0",
     "octokit": "^1.1.0",
-    "ts-node": "^10.1.0"
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
   },
   "devDependencies": {},
   "scripts": {
