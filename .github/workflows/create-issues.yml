@@ -1,0 +1,29 @@
+name: create-issues
+
+on:
+  schedule:
+    - cron: 30 0 * * * # JST 9:30
+  # 再実行やデバッグ用に手動でも実行可能にしておく
+  workflow_dispatch:
+
+env:
+  TZ: "Asia/Tokyo"
+jobs:
+  create-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+      - run: npm install
+      - run: npm run ts-run
+        env:
+          NOTION_KEY: ${{ secrets.NOTION_KEY }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+          GITHUB_KEY: ${{ secrets.GITHUB_KEY }}
+          GITHUB_OWNER: ${{ secrets.GITHUB_OWNER }}
+          GITHUB_REPO: ${{ secrets.GITHUB_REPO }}
+          PROPERTY_TITLE: ${{ secrets.PROPERTY_TITLE }}
+          PROPERTY_NO: ${{ secrets.PROPERTY_NO }}
+          PROPERTY_GITHUB: ${{ secrets.PROPERTY_GITHUB }}
