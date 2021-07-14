@@ -1,6 +1,6 @@
 import { Client } from "@notionhq/client"
 import { InputPropertyValueMap } from "@notionhq/client/build/src/api-endpoints"
-import { SelectPropertyValue, TitlePropertyValue } from "@notionhq/client/build/src/api-types"
+import { TitlePropertyValue } from "@notionhq/client/build/src/api-types"
 
 import { config } from "dotenv"
 import { Octokit } from "octokit"
@@ -11,14 +11,12 @@ const octokit = new Octokit({ auth: process.env["GITHUB_KEY"] })
 const notion = new Client({ auth: process.env["NOTION_KEY"] })
 
 const DATABASE_ID = process.env["NOTION_DATABASE_ID"]
-const PROPERTY_STATUS = process.env["PROPERTY_STATUS"]
 const PROPERTY_TITLE = process.env["PROPERTY_TITLE"]
 const PROPERTY_NO = process.env["PROPERTY_NO"]
 const PROPERTY_GITHUB = process.env["PROPERTY_GITHUB"]
 
 type Page = {
   id: string
-  status: string
   title: string
   url: string
 }
@@ -64,10 +62,9 @@ async function getTasksFromDatabase() {
 
     for (const page of current_pages.results) {
       if (page.object === 'page') {
-        if (page.properties[PROPERTY_STATUS] && page.properties[PROPERTY_TITLE]) {
+        if (page.properties[PROPERTY_TITLE]) {
           tasks.push({
             id: page.id,
-            status: (page.properties[PROPERTY_STATUS] as SelectPropertyValue).select.name,
             title: (page.properties[PROPERTY_TITLE] as TitlePropertyValue).title[0]!.plain_text,
             url: page.url,
           })
