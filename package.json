@@ -1,8 +1,8 @@
 {
-  "name": "database-update-send-email",
+  "name": "create-github-issues-from-notion-database",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "dependencies": {
     "@notionhq/client": "latest",
     "dotenv": "^10.0.0",
@@ -12,10 +12,9 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --experimental-modules index.js",
     "ts-run": "node --unhandled-rejections=strict  --loader ts-node/esm index.ts"
   },
   "type": "module",
-  "author": "Aman Gupta",
+  "author": "Yusuke Kokubo",
   "license": "MIT"
 }
