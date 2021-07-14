@@ -7,7 +7,7 @@ import { Octokit } from "octokit"
 
 config()
 
-const octokit = new Octokit({ auth: process.env["GITHUB_KEY"] })
+const octokit = new Octokit({ auth: process.env["REPO_GITHUB_TOKEN"] })
 const notion = new Client({ auth: process.env["NOTION_KEY"] })
 
 const DATABASE_ID = process.env["NOTION_DATABASE_ID"]
@@ -24,8 +24,8 @@ type Page = {
 async function createGitHubIssues(tasks: Page[]) {
   for (const [index, task] of Object.entries(tasks)) {
     const createdIssue = await octokit.rest.issues.create({
-      owner: process.env["GITHUB_OWNER"],
-      repo: process.env["GITHUB_REPO"],
+      owner: process.env["REPO_GITHUB_OWNER"],
+      repo: process.env["REPO_GITHUB_REPO"],
       title: task.title,
       body: task.url
     })

@@ -17,9 +17,9 @@ npm install
 ```zsh
 NOTION_KEY= <your-notion-api-key>
 NOTION_DATABASE_ID=<your-notion-database-id>
-GITHUB_KEY=<your-github-token>
-GITHUB_OWNER=<your-github-owner>
-GITHUB_REPO=<your-github-repository>
+REPO_GITHUB_TOKEN=<your-github-token>
+REPO_GITHUB_OWNER=<your-github-owner>
+REPO_GITHUB_REPO=<your-github-repository>
 
 PROPERTY_TITLE=<title-for-your-tasks-in-database>
 PROPERTY_NO=<property-name-for-github-issues-no>

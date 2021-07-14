@@ -21,9 +21,9 @@ jobs:
         env:
           NOTION_KEY: ${{ secrets.NOTION_KEY }}
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
-          GITHUB_KEY: ${{ secrets.GITHUB_KEY }}
-          GITHUB_OWNER: ${{ secrets.GITHUB_OWNER }}
-          GITHUB_REPO: ${{ secrets.GITHUB_REPO }}
+          REPO_GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
+          REPO_GITHUB_OWNER: ${{ secrets.REPO_GITHUB_OWNER }}
+          REPO_GITHUB_REPO: ${{ secrets.REPO_GITHUB_REPO }}
           PROPERTY_TITLE: ${{ secrets.PROPERTY_TITLE }}
           PROPERTY_NO: ${{ secrets.PROPERTY_NO }}
           PROPERTY_GITHUB: ${{ secrets.PROPERTY_GITHUB }}
