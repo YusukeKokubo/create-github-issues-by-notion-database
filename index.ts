@@ -24,26 +24,26 @@ type Page = {
 }
 
 async function createGitHubIssues(tasks: Page[]) {
-  tasks.forEach(async (task) => {
+  for (const [index, task] of Object.entries(tasks)) {
     const createdIssue = await octokit.rest.issues.create({ 
       owner: process.env["GITHUB_OWNER"],
       repo: process.env["GITHUB_REPO"],
       title: task.title,
       body: task.url
-     })
+    })
 
-     const propertyValues: InputPropertyValueMap = {}
-     propertyValues[PROPERTY_NO] = {
-       type: 'number',
-       number: createdIssue.data.number
-     }
-     propertyValues[PROPERTY_GITHUB] = {
-       type: 'url',
-       url: createdIssue.data.html_url
-     }
+    const propertyValues: InputPropertyValueMap = {}
+    propertyValues[PROPERTY_NO] = {
+      type: 'number',
+      number: createdIssue.data.number
+    }
+    propertyValues[PROPERTY_GITHUB] = {
+      type: 'url',
+      url: createdIssue.data.html_url
+    }
 
-     notion.pages.update({page_id: task.id, properties: propertyValues })
-  })
+    notion.pages.update({page_id: task.id, properties: propertyValues })
+  }
 }
 
 async function getTasksFromDatabase() {
