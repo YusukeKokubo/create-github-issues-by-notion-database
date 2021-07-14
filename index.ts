@@ -23,7 +23,7 @@ type Page = {
 
 async function createGitHubIssues(tasks: Page[]) {
   for (const [index, task] of Object.entries(tasks)) {
-    const createdIssue = await octokit.rest.issues.create({ 
+    const createdIssue = await octokit.rest.issues.create({
       owner: process.env["GITHUB_OWNER"],
       repo: process.env["GITHUB_REPO"],
       title: task.title,
@@ -40,7 +40,7 @@ async function createGitHubIssues(tasks: Page[]) {
       url: createdIssue.data.html_url
     }
 
-    notion.pages.update({page_id: task.id, properties: propertyValues })
+    notion.pages.update({ page_id: task.id, properties: propertyValues })
 
     // TODO: I'd really like to sleep here.(to avoid GitHub's api rate limit)
   }
@@ -50,7 +50,7 @@ async function getTasksFromDatabase() {
   const tasks: Page[] = []
   async function getPageOfTasks(cursor: string | null) {
     const current_pages = await notion.databases.query({
-      database_id: DATABASE_ID, 
+      database_id: DATABASE_ID,
       filter: {
         property: PROPERTY_NO,
         number: {
