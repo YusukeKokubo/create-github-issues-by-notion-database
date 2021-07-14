@@ -37,9 +37,12 @@ See Step2. https://developers.notion.com/docs/getting-started
 Add a property with the same name as the name set in `.env` to the Notion database as well.
 Check `PROPERTY_NO`, `PROPERTY_GITHUB`
 
+These properites should be empty.
 
 ### 4. Run code
 
 ```zsh
 npm run ts-run
 ```
+
+Check the database.
