@@ -43,6 +43,8 @@ async function createGitHubIssues(tasks: Page[]) {
     }
 
     notion.pages.update({page_id: task.id, properties: propertyValues })
+
+    // TODO: I'd really like to sleep here.(to avoid GitHub's api rate limit)
   }
 }
 
