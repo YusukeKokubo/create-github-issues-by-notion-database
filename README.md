@@ -38,7 +38,7 @@ Add a property with the same name as the name set in `.env` to the Notion databa
 Check `PROPERTY_NO`, `PROPERTY_GITHUB`
 
 
-### 3. Run code
+### 4. Run code
 
 ```zsh
 npm run ts-run
