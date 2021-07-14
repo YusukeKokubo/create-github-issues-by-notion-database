@@ -13,7 +13,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "ts-run": "node --unhandled-rejections=strict  --loader ts-node/esm index.ts"
+    "ts-run": "node  --loader ts-node/esm index.ts"
   },
   "type": "module",
   "author": "Yusuke Kokubo",
