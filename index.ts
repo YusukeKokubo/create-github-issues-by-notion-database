@@ -62,12 +62,14 @@ async function getTasksFromDatabase() {
 
     for (const page of current_pages.results) {
       if (page.object === 'page') {
-        tasks.push({
-          id: page.id,
-          status: (page.properties[PROPERTY_STATUS] as SelectPropertyValue).select.name,
-          title: (page.properties[PROPERTY_TITLE] as TitlePropertyValue).title[0]!.plain_text,
-          url: page.url,
-        })
+        if (page.properties[PROPERTY_STATUS] && page.properties[PROPERTY_TITLE]) {
+          tasks.push({
+            id: page.id,
+            status: (page.properties[PROPERTY_STATUS] as SelectPropertyValue).select.name,
+            title: (page.properties[PROPERTY_TITLE] as TitlePropertyValue).title[0]!.plain_text,
+            url: page.url,
+          })
+        }
       }
     }
     if (current_pages.has_more) {
