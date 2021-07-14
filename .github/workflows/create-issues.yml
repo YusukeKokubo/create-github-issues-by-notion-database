@@ -16,8 +16,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "14"
-      - run: npm install
-      - run: npm run ts-run
+      - run: yarn install
+      - run: yarn node --loader ts-node/esm index.ts
         env:
           NOTION_KEY: ${{ secrets.NOTION_KEY }}
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
