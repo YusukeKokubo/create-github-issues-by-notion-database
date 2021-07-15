@@ -60,6 +60,7 @@ async function getTasksFromDatabase() {
       },
       start_cursor: cursor
     })
+    console.log('pages count: ', current_pages.results.length)
 
     for (const page of current_pages.results) {
       if (page.object === 'page') {
