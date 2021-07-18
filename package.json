@@ -12,7 +12,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "issues:create": "node  --loader ts-node/esm src/create_issues.ts"
+    "issues:create": "node  --loader ts-node/esm src/create_issues.ts",
+    "issues:update": "node  --loader ts-node/esm src/update_issues.ts"
   },
   "type": "module",
   "author": "Yusuke Kokubo",
