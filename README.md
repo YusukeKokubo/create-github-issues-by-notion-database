@@ -41,7 +41,7 @@ These properites should be empty.
 ### 4. Run code
 
 ```zsh
-npm run ts-run
+npm run issues:create
 ```
 
 Check the database.
