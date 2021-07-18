@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: "14"
       - run: yarn install
-      - run: yarn node --loader ts-node/esm create_issues.ts
+      - run: yarn node --loader ts-node/esm src/create_issues.ts
         env:
           NOTION_KEY: ${{ secrets.NOTION_KEY }}
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}

@@ -9,6 +9,6 @@
 		"node_modules"
 	],
 	"files": [
-		"create_issues.ts"
+		"src/create_issues.ts"
 	]
 }
