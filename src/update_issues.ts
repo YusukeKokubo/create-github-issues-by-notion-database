@@ -1,5 +1,6 @@
 import { Client } from "@notionhq/client"
 import { NumberPropertyValue, SelectPropertyValue, TitlePropertyValue } from "@notionhq/client/build/src/api-types"
+import { formatISO, subDays } from "date-fns"
 
 import { config } from "dotenv"
 import { Octokit } from "octokit"
@@ -12,6 +13,7 @@ const notion = new Client({ auth: process.env["NOTION_KEY"] })
 const DATABASE_ID = process.env["NOTION_DATABASE_ID"]
 const PROPERTY_TITLE = process.env["PROPERTY_TITLE"]
 const PROPERTY_NO = process.env["PROPERTY_NO"]
+const PROPERTY_UPDATE_TARGET_DAYS = Number(process.env["PROPERTY_UPDATE_TARGET_DAYS"])
 const PROPERTY_STATUS = process.env["PROPERTY_STATUS"]
 const PROPERTY_VALUE_STATUS_DONE = process.env["PROPERTY_VALUE_STATUS_DONE"]
 const PROPERTY_UPDATED_TIME = process.env["PROPERTY_UPDATED_TIME"]
@@ -44,13 +46,15 @@ async function updateGitHubIssues(tasks: Page[]) {
 
 async function getDoneTasksFromDatabase() {
   const doneTasks: Page[] = []
+  const past_days = formatISO(subDays(new Date(), PROPERTY_UPDATE_TARGET_DAYS))
+
   async function getPageOfTasks(cursor: string | null) {
     const current_pages = await notion.databases.query({
       database_id: DATABASE_ID,
       filter: {
         property: PROPERTY_UPDATED_TIME,
         date: {
-          past_week: {}
+          after: past_days
         }
       },
       start_cursor: cursor

@@ -4,6 +4,7 @@
   "description": "",
   "dependencies": {
     "@notionhq/client": "latest",
+    "date-fns": "^2.22.1",
     "dotenv": "^10.0.0",
     "octokit": "^1.1.0",
     "ts-node": "^10.1.0",
