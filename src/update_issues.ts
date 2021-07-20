@@ -29,7 +29,7 @@ type Page = {
 
 async function updateGitHubIssues(tasks: Page[]) {
   for (const [index, task] of Object.entries(tasks)) {
-    const state = task.status === PROPERTY_VALUE_STATUS_DONE ? 'closed' : 'open'
+    const state = PROPERTY_VALUE_STATUS_DONE.split(',').includes(task.status) ? 'closed' : 'open'
 
     const updatedIssue = await octokit.rest.issues.update({
       owner: process.env["REPO_GITHUB_OWNER"],
@@ -39,7 +39,8 @@ async function updateGitHubIssues(tasks: Page[]) {
       state: state,
     })
 
-    console.log('updated', task.title, updatedIssue.data.number)
+    // console.log('updated', task.title, task.issue_number, state)
+    console.log('updated', updatedIssue.data.title, updatedIssue.data.number, updatedIssue.data.state)
 
     // TODO: I'd really like to sleep here.(to avoid GitHub's api rate limit)
   }
@@ -110,6 +111,6 @@ async function getDoneTasksFromDatabase() {
 async function main() {
   const tasks = await getDoneTasksFromDatabase()
   console.log(tasks)
-  // updateGitHubIssues(tasks).catch(console.error)
+  updateGitHubIssues(tasks).catch(console.error)
 }
 main()
