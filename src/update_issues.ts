@@ -24,6 +24,7 @@ type Page = {
   title: string
   status: string
   issue_number: number
+  lastEditedTime: string
 }
 
 async function updateGitHubIssues(tasks: Page[]) {
@@ -52,10 +53,32 @@ async function getDoneTasksFromDatabase() {
     const current_pages = await notion.databases.query({
       database_id: DATABASE_ID,
       filter: {
-        property: PROPERTY_UPDATED_TIME,
-        date: {
-          after: past_days
-        }
+        and: [
+          {
+            property: PROPERTY_UPDATED_TIME,
+            date: {
+              after: past_days
+            },
+          },
+          {
+            property: PROPERTY_TITLE,
+            text: {
+              is_not_empty: true
+            }
+          },
+          {
+            property: PROPERTY_STATUS,
+            select: {
+              is_not_empty: true
+            }
+          },
+          {
+            property: PROPERTY_NO,
+            number: {
+              is_not_empty: true
+            }
+          }
+        ],
       },
       start_cursor: cursor
     })
@@ -63,17 +86,17 @@ async function getDoneTasksFromDatabase() {
 
     for (const page of current_pages.results) {
       if (page.object === 'page') {
+        // console.debug(page.properties)
         const title = page.properties[PROPERTY_TITLE] as TitlePropertyValue
         const status = page.properties[PROPERTY_STATUS] as SelectPropertyValue
         const issue_number = page.properties[PROPERTY_NO] as NumberPropertyValue
-        if (title && title.title.length > 0) {
-          doneTasks.push({
-            id: page.id,
-            title: title.title[0].plain_text,
-            status: status.select.name,
-            issue_number: issue_number.number,
-          })
-        }
+        doneTasks.push({
+          id: page.id,
+          title: title.title[0].plain_text,
+          status: status.select.name,
+          issue_number: issue_number.number,
+          lastEditedTime: page.last_edited_time
+        })
       }
     }
     if (current_pages.has_more) {
@@ -87,6 +110,6 @@ async function getDoneTasksFromDatabase() {
 async function main() {
   const tasks = await getDoneTasksFromDatabase()
   console.log(tasks)
-  updateGitHubIssues(tasks).catch(console.error)
+  // updateGitHubIssues(tasks).catch(console.error)
 }
 main()
