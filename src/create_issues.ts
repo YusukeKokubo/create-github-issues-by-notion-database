@@ -53,10 +53,20 @@ async function getTasksFromDatabase() {
     const current_pages = await notion.databases.query({
       database_id: DATABASE_ID,
       filter: {
-        property: PROPERTY_NO,
-        number: {
-          is_empty: true
-        },
+        and: [
+          {
+            property: PROPERTY_TITLE,
+            text: {
+              is_not_empty: true
+            }
+          },
+          {
+            property: PROPERTY_NO,
+            number: {
+              is_empty: true
+            },
+          }
+        ]
       },
       start_cursor: cursor
     })
@@ -64,13 +74,12 @@ async function getTasksFromDatabase() {
 
     for (const page of current_pages.results) {
       if (page.object === 'page') {
-        if (page.properties[PROPERTY_TITLE] && (page.properties[PROPERTY_TITLE] as TitlePropertyValue).title[0]) {
-          tasks.push({
-            id: page.id,
-            title: (page.properties[PROPERTY_TITLE] as TitlePropertyValue).title[0].plain_text,
-            url: page.url,
-          })
-        }
+        const title = page.properties[PROPERTY_TITLE] as TitlePropertyValue
+        tasks.push({
+          id: page.id,
+          title: title.title[0].plain_text,
+          url: page.url,
+        })
       }
     }
     if (current_pages.has_more) {
